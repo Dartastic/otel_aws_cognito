@@ -5,11 +5,14 @@ import 'dart:async';
 
 const _key = #dartastic_otel_libs_aws_cognito_suppress;
 
+/// Whether instrumentation is suppressed in the current zone.
 bool awsCognitoInstrumentationSuppressed() => Zone.current[_key] == true;
 
+/// Runs [body] without creating spans for calls made inside it.
 T runWithoutAwsCognitoInstrumentation<T>(T Function() body) =>
     runZoned(body, zoneValues: {_key: true});
 
+/// Runs [body] without creating spans for calls made inside it.
 Future<T> runWithoutAwsCognitoInstrumentationAsync<T>(
   Future<T> Function() body,
 ) =>

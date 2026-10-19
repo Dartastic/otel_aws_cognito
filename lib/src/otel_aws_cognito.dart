@@ -10,6 +10,7 @@ const _tracerName = 'dartastic_otel_libs_aws_cognito';
 APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class AwsCognitoResult {
+  /// Creates a result.
   const AwsCognitoResult({
     this.region,
     this.surface,
@@ -95,8 +96,13 @@ class AwsCognitoResult {
   final int? statusCode;
 }
 
+/// What a traced call returned: the value for the caller plus fields
+/// recorded on the span.
 class AwsCognitoCallResult<T> {
+  /// Creates a call result.
   const AwsCognitoCallResult({required this.value, this.result});
+
+  /// The value returned to the caller.
   final T value;
   final AwsCognitoResult? result;
 }
