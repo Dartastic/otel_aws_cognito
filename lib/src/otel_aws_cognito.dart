@@ -1,13 +1,13 @@
-// Licensed under the Dartastic Pro Software License Agreement.
+// Licensed under the Apache License, Version 2.0
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_aws_cognito_suppression.dart';
 
 const _tracerName = 'dartastic_otel_libs_aws_cognito';
 
-Tracer _tracer() => OTel.tracerProvider().getTracer(_tracerName);
+APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class AwsCognitoResult {
   const AwsCognitoResult({
@@ -135,7 +135,7 @@ Future<T> tracedAwsCognito<T>({
   final span = _tracer().startSpan(
     'aws_cognito $operation',
     kind: SpanKind.client,
-    attributes: OTel.attributesFromMap(m),
+    attributes: OTelAPI.attributesFromMap(m),
   );
   try {
     final r = await invoke();
@@ -143,103 +143,105 @@ Future<T> tracedAwsCognito<T>({
       final res = r.result!;
       final extras = <Attribute<Object>>[];
       if (res.region != null) {
-        extras.add(OTel.attributeString('aws_cognito.region', res.region!));
+        extras.add(OTelAPI.attributeString('aws_cognito.region', res.region!));
       }
       if (res.surface != null) {
-        extras.add(OTel.attributeString('aws_cognito.surface', res.surface!));
+        extras
+            .add(OTelAPI.attributeString('aws_cognito.surface', res.surface!));
       }
       if (res.userPoolId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.user_pool.id',
           res.userPoolId!,
         ));
       }
       if (res.appClientId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.app_client.id',
           res.appClientId!,
         ));
       }
       if (res.identityPoolId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.identity_pool.id',
           res.identityPoolId!,
         ));
       }
       if (res.username != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.username',
           res.username!,
         ));
       }
       if (res.sub != null) {
-        extras.add(OTel.attributeString('aws_cognito.sub', res.sub!));
+        extras.add(OTelAPI.attributeString('aws_cognito.sub', res.sub!));
       }
       if (res.authFlow != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.auth_flow',
           res.authFlow!,
         ));
       }
       if (res.idpKind != null) {
-        extras.add(OTel.attributeString('aws_cognito.idp.kind', res.idpKind!));
+        extras
+            .add(OTelAPI.attributeString('aws_cognito.idp.kind', res.idpKind!));
       }
       if (res.challenge != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.challenge',
           res.challenge!,
         ));
       }
       if (res.mfaSetting != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.mfa.setting',
           res.mfaSetting!,
         ));
       }
       if (res.mfaMethod != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.mfa.method',
           res.mfaMethod!,
         ));
       }
       if (res.idTokenLength != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_cognito.id_token.length',
           res.idTokenLength!,
         ));
       }
       if (res.accessTokenLength != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_cognito.access_token.length',
           res.accessTokenLength!,
         ));
       }
       if (res.refreshTokenLength != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_cognito.refresh_token.length',
           res.refreshTokenLength!,
         ));
       }
       if (res.expiresInSec != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'aws_cognito.expires_in_sec',
           res.expiresInSec!,
         ));
       }
       if (res.userStatus != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.user.status',
           res.userStatus!,
         ));
       }
       if (res.identityId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.identity.id',
           res.identityId!,
         ));
       }
       if (res.errorCode != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.error.code',
           res.errorCode!,
         ));
@@ -250,13 +252,13 @@ Future<T> tracedAwsCognito<T>({
         }
       }
       if (res.errorMessage != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'aws_cognito.error.message',
           res.errorMessage!,
         ));
       }
       if (res.statusCode != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'http.response.status_code',
           res.statusCode!,
         ));
@@ -267,13 +269,13 @@ Future<T> tracedAwsCognito<T>({
           );
         }
       }
-      if (extras.isNotEmpty) span.addAttributes(OTel.attributes(extras));
+      if (extras.isNotEmpty) span.addAttributes(OTelAPI.attributes(extras));
     }
     return r.value;
   } catch (e, st) {
-    span.addAttributes(OTel.attributes([
-      OTel.attributeString(
-        ErrorResource.errorType.key,
+    span.addAttributes(OTelAPI.attributes([
+      OTelAPI.attributeString(
+        ErrorAttributes.errorType.key,
         e.runtimeType.toString(),
       ),
     ]));
